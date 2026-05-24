@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls \"D:/software/yuyin/qiqiyinqiluntai/dnrfw20260427213658112878906iis录音可用-bat修改过0430/\" 2>/dev/null | head -30)",
+      "Read(//d/software/yuyin/qiqiyinqiluntai/dnrfw20260427213658112878906iis录音可用-bat修改过0430/**)"
+    ]
+  }
+}
