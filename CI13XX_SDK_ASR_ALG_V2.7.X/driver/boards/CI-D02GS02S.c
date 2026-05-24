@@ -40,6 +40,7 @@ void pad_config_for_uart(UART_TypeDef *UARTx)
         dpmu_set_io_pull(PB6,DPMU_IO_PULL_UP);  //RX需开启上拉
         #endif
     }
+    /*
     else if (UARTx == UART1)
     {
         dpmu_set_io_reuse(PA2,FORTH_FUNCTION);
@@ -65,7 +66,7 @@ void pad_config_for_uart(UART_TypeDef *UARTx)
         #else
         dpmu_set_io_pull(PA6,DPMU_IO_PULL_UP);  //RX需开启上拉
         #endif
-    }
+    }*/
 }
 
 
@@ -75,14 +76,14 @@ void pad_config_for_uart(UART_TypeDef *UARTx)
  */
 void pad_config_for_iis(void)
 {
-    #if USE_IIS1_OUT_PRE_RSLT_AUDIO
-    IOResue_FUNCTION IISx_IO_reuse = SECOND_FUNCTION;
-	dpmu_set_io_reuse(PA2,IISx_IO_reuse);
-    dpmu_set_io_reuse(PA3,IISx_IO_reuse);
-    dpmu_set_io_reuse(PA4,IISx_IO_reuse);
-    dpmu_set_io_reuse(PA5,IISx_IO_reuse);
-    dpmu_set_io_reuse(PA6,IISx_IO_reuse);
-    #endif
+    //#if USE_IIS1_OUT_PRE_RSLT_AUDIO
+    //IOResue_FUNCTION IISx_IO_reuse = SECOND_FUNCTION;
+	dpmu_set_io_reuse(PA2,SECOND_FUNCTION);
+    dpmu_set_io_reuse(PA3,SECOND_FUNCTION);
+    dpmu_set_io_reuse(PA4,SECOND_FUNCTION);
+    dpmu_set_io_reuse(PA5,SECOND_FUNCTION);
+    dpmu_set_io_reuse(PA6,SECOND_FUNCTION);
+    //#endif
 }
 
 
@@ -376,8 +377,13 @@ const cm_codec_hw_info_t host_mic_hw_info =
     .output_iis.scklrck_out_en = IIS_SCKLRCK_OUT,
     #endif
 
+    #if AUDIO_IN_FROM_IIS_PAD
+    .input_iis.IISx = IIS0,
+    .input_iis.iis_mode_sel = IIS_SLAVE,
+    #else
     .input_iis.IISx = IIS1,
     .input_iis.iis_mode_sel = IIS_MASTER,
+    #endif
     .input_iis.over_sample = IIS_MCLK_FS_256,
     #if !INNER_CODEC_AUDIO_IN_USE_RESAMPLE
     .input_iis.clk_source = AUDIO_PLAY_CLK_SOURCE_OSC_OR_INEER_RC,

@@ -39,7 +39,7 @@ void pad_config_for_uart(UART_TypeDef *UARTx)
         #else
         dpmu_set_io_pull(PB6,DPMU_IO_PULL_UP);  //RX需开启上拉
         #endif
-    }
+    }/*
     else if (UARTx == UART1)
     {
         dpmu_set_io_reuse(PB7,SECOND_FUNCTION);
@@ -65,7 +65,7 @@ void pad_config_for_uart(UART_TypeDef *UARTx)
         #else
         dpmu_set_io_pull(PA6,DPMU_IO_PULL_UP);  //RX需开启上拉
         #endif
-    }
+    }*/
 }
 
 
@@ -81,7 +81,7 @@ void pad_config_for_iis(void)
     scu_set_device_gate(PA, ENABLE);
     dpmu_set_io_reuse(PA2, SECOND_FUNCTION);
     dpmu_set_io_reuse(PA3, SECOND_FUNCTION);
-    dpmu_set_io_reuse(PA4, SECOND_FUNCTION);
+    //dpmu_set_io_reuse(PA4, SECOND_FUNCTION);
     dpmu_set_io_reuse(PA5, SECOND_FUNCTION);
     dpmu_set_io_reuse(PA6, SECOND_FUNCTION);
 }
@@ -374,16 +374,21 @@ const cm_codec_hw_info_t host_mic_hw_info =
     #endif
 
     // CI1303做IIS SLAVE，接收CI13322(MASTER)的SCLK/LRCK
+    #if AUDIO_IN_FROM_IIS_PAD
     .input_iis.IISx = IIS0,
-    .input_iis.iis_mode_sel = IIS_SLAVE,          // ★ CI1303做从
+    .input_iis.iis_mode_sel = IIS_SLAVE,
+    #else
+    .input_iis.IISx = IIS1,
+    .input_iis.iis_mode_sel = IIS_MASTER,
+    #endif         // ★ CI1303做从
     .input_iis.over_sample = IIS_MCLK_FS_256,
     .input_iis.clk_source = AUDIO_PLAY_CLK_SOURCE_OSC_OR_INEER_RC,
-    .input_iis.mclk_out_en = IIS_MCLK_IN,          // 从模式：MCLK为输入
+    .input_iis.mclk_out_en = IIS_MCLK_OUT,          // 从模式：MCLK为输入
     .input_iis.iis_data_format = IIS_DF_IIS,
     .input_iis.sck_lrck_ratio = IIS_SCK_LRCK_64,
     .input_iis.rx_cha = IIS_RX_CHANNAL_RX0,
     .input_iis.outside_mclk_fre = 0,
-    .input_iis.scklrck_out_en = IIS_SCKLRCK_IN,   // ★ SCK/LRCK为输入，由CI13322提供
+    .input_iis.scklrck_out_en = IIS_SCKLRCK_MODENULL,   // ★ SCK/LRCK为输入，由CI13322提供
 
 #if (MIC_DIFF_SINGLE == 0)
     .codec_gain.codec_adc_input_mode_l = INNER_CODEC_INPUT_MODE_DIFF,
@@ -438,7 +443,7 @@ audio_format_info_t audio_format_info =
  */
 const cm_sound_info_t host_mic_sound_info = {
     .sample_rate = 16000,        // ★ 匹配CI13322输出，无需重采样
-    .channel_flag = 3,           // 立体声双通道
+    .channel_flag = 1,           // CI1306 IIS输入：左声道单通道(降噪后数据在左声道)
     .sample_depth = IIS_DW_16BIT,
 };
 

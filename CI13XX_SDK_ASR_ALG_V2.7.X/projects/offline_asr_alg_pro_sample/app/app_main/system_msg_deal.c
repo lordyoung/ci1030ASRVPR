@@ -150,7 +150,7 @@ static void servo_pwm_init(void)
     scu_set_device_gate(PC, ENABLE);
     
     // 2. 使能PWM3外设时钟
-    scu_set_device_gate(HAL_PWM3_BASE, ENABLE);
+    scu_set_device_gate(HAL_PWM2_BASE, ENABLE);
     
     // 3. 配置PA5引脚为PWM3功能（关键修复：使用正确参数）
     dpmu_set_io_reuse(PC1, FORTH_FUNCTION);  // 正确：PA=基地址, pin_5=引脚
@@ -163,13 +163,13 @@ static void servo_pwm_init(void)
         .duty_max = 20000 // 仅占位，实际由 freq 决定
     };
     // 5. 初始化PWM3
-    pwm_init(PWM3, config);
+    pwm_init(PWM2, config);
     
     // 6. 设置重启模式（1=等待当前波形完成才生效）
-    pwm_set_restart_md(PWM3, 1);
+    pwm_set_restart_md(PWM2, 1);
     
     // 7. 启动PWM3
-    pwm_start(PWM3);
+    pwm_start(PWM2);
 
 }
 
@@ -181,7 +181,7 @@ void servo_set_angle(uint8_t angle)
     uint32_t max_pulse = 2500;  // 180°对应2500us
     uint32_t pulse = min_pulse + (angle * (max_pulse - min_pulse)) / 180;
     
-    pwm_set_duty(PWM3, pulse, 20000); // 注意duty_max要与初始化一致
+    pwm_set_duty(PWM2, pulse, 20000); // 注意duty_max要与初始化一致
 }
 
 
@@ -762,7 +762,7 @@ void sys_msg_task_initial(void)
                             servo_set_angle(0);
                             vTaskDelay(pdMS_TO_TICKS(100)); // 给舵机时间响应
                             //pwm_stop(PWM2);
-                            pwm_stop(PWM3);
+                            pwm_stop(PWM2);
                             // 真正的断开
                             //dpmu_set_io_direction(PA4, DPMU_IO_DIRECTION_INPUT); // 切换为输入
                         }

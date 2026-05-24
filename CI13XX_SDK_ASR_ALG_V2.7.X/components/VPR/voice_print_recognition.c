@@ -304,7 +304,7 @@ int vpr_run_one_recognition(uint16_t wakeup_cmd_id)
                     case 4:
                         mprintf("####open recognition rec switch, cmd_id:%d\n", wakeup_cmd_id);
                                                 
-                        pwm_start(PWM3);
+                        pwm_start(PWM2);
                         //servo_set_angle(20); // 只设一次 90°
                         //vTaskDelay(pdMS_TO_TICKS(200)); // 给舵机时间响应
                         servo_set_angle(22); // 只设一次 90°
@@ -314,21 +314,21 @@ int vpr_run_one_recognition(uint16_t wakeup_cmd_id)
                         servo_set_angle(27); // 只设一次 90°
                         vTaskDelay(pdMS_TO_TICKS(200)); // 给舵机时间响应
                         servo_set_angle(30); // 只设一次 90°
-                        pwm_stop(PWM3);
+                        pwm_stop(PWM2);
                         vTaskDelay(pdMS_TO_TICKS(300)); // 给舵机时间响应
                         
         
-                        pwm_start(PWM3);
+                        pwm_start(PWM2);
                         servo_set_angle(0);
                         vTaskDelay(pdMS_TO_TICKS(200)); 
                         //pwm_stop(PWM2);
-                        pwm_stop(PWM3);
+                        pwm_stop(PWM2);
 
                         break;
                     case 5:
                     case 6:
                         mprintf("####close recognition rec switch, cmd_id:%d\n", wakeup_cmd_id);
-                        pwm_start(PWM3);
+                        pwm_start(PWM2);
                         //servo_set_angle(20); // 只设一次 90°
                         //vTaskDelay(pdMS_TO_TICKS(200)); // 给舵机时间响应
                         servo_set_angle(-22); // 只设一次 90°
@@ -338,15 +338,15 @@ int vpr_run_one_recognition(uint16_t wakeup_cmd_id)
                         servo_set_angle(-27); // 只设一次 90°
                         vTaskDelay(pdMS_TO_TICKS(200)); // 给舵机时间响应
                         servo_set_angle(-30); // 只设一次 90°
-                        pwm_stop(PWM3);
+                        pwm_stop(PWM2);
                         vTaskDelay(pdMS_TO_TICKS(300)); // 给舵机时间响应
                         
         
-                        pwm_start(PWM3);
+                        pwm_start(PWM2);
                         servo_set_angle(0);
                         vTaskDelay(pdMS_TO_TICKS(200)); 
                         //pwm_stop(PWM2);
-                        pwm_stop(PWM3);
+                        pwm_stop(PWM2);
                         break;
                 }
             }

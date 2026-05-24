@@ -29,6 +29,10 @@
 #define BOARD_PORT_FILE                "CI-D06GT01D.c"
 #endif
 
+#ifndef AUDIO_IN_FROM_IIS_PAD
+#define AUDIO_IN_FROM_IIS_PAD          1       //是否使用IIS PAD作为音频输入，0：否（默认），1：是。使用IIS PAD输入时，麦克风输入只能使用IIS0，且IIS0必须配置为从模式。
+#endif
+
 // //示例板级支持配置
 // #ifndef BOARD_PORT_FILE
 // #define BOARD_PORT_FILE            "board_port_xxx.c"
