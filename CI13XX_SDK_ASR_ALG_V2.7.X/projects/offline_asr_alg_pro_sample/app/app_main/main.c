@@ -2,10 +2,10 @@
  * @file main.c
  * @brief 示例程序
  * @version 1.0.0
- * @date 2021-03-19
+ * @date 2021-03-19  
  *
  * @copyright Copyright (c) 2019  Chipintelli Technology Co., Ltd.
- *
+ *  
  */
 #include <stdio.h> 
 #include <malloc.h>
